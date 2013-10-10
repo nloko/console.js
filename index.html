@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="console.js"></script>
+    <title>console.js</title>
+    <link href='//fonts.googleapis.com/css?family=PT+Mono' rel='stylesheet' type='text/css'>
+    <link href="console.css" rel="stylesheet" type="text/css">
+    <style>
+      body, html {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        background: #002b36;
+      }
+      a {
+        color: #eee;
+        text-decoration: none;
+        transition: all 300ms;
+        -webkit-transition: all 300ms;
+        -moz-transition: all 300ms;
+      }
+      a:hover {
+        color: white;
+      }
+      .nav {
+        font-family: 'Helvetica', sans-serif;
+        font-weight: bold;
+        font-size: 14px;
+        background: #333;
+        opacity: 0.9;
+        color: white;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 30px;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -o-box-sizing: border-box;
+        -webkit-transition: all 400ms;
+        -moz-transition: all 400ms;
+        transition: all 400ms;
+      }
+      .nav.closed {
+        min-width: 34px;
+        width:0;
+      }
+      .nav li {
+        display: inline-block;
+        padding: 6px 10px;
+        margin: 0;
+        box-sizing: border-box;
+        -o-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+      }
+      .tooltip {
+        font-family: 'Helvetica', sans-serif;
+        font-size: 12px;
+        display: none;
+        position: fixed;
+        background: #268bd2;
+        color: #002b36;
+        padding: 12px;
+        border-radius: 4px;
+        width: 200px;
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -o-box-sizing: border-box;
+      }
+      .tooltip::after {
+        content: '';
+        width: 0;
+        height: 0;
+        border: 10px solid;
+        border-color: transparent #268bd2 transparent transparent;
+        position: absolute;
+        top: 50%;
+        margin-top: -10px;
+        left: -20px;
+      }
+      .tooltip a {
+        color: #000;
+        font-weight: bold;
+      }
+    </style>
+    <script>
+      var commands = {};
+      commands['hello'] = 'Oh, hi there! Welcome!';
+      commands['goodbye'] = function(c) {
+        c.echo('See ya!');
+        setTimeout(function() {
+          document.location = "http://www.google.com";
+        }, 1000);
+      };
+      commands['blog'] = function(c) {
+        c.echo("One moment, please...");
+        setTimeout(function() {
+          document.location = "https://www.nloko.ca/blog/";
+        }, 1000);
+      };
+      commands['about'] = 'This page was built with a jQuery plugin called console.js';
+      commands['contact'] = 'Holla! <a href="http://twitter.com/nloko">@nloko</a>';
+      commands['bomb'] = function(c) {
+        var lines = $(".line.inactive");
+        if (!lines.length) {
+          c.echoWithNewLine("There is nothing to bomb! Try some more commands first.");
+          return;
+        }
+        var height = $(window).height();
+        var width = $(window).width();
+        $(lines).each(function(i, line) {
+          var x = Math.floor(Math.random() * width) + "px";
+          var y = Math.floor(Math.random() * height) + "px";
+          var r = Math.floor(Math.random() * 360) + "deg";
+
+          $(line).css({
+            WebkitTransform: "translate3d(" + x + "," + y + ",0) rotate(" + r + ")",
+//            OTransform: "translate3d(" + x + "," + y + ",0) rotate(" + r + ")",
+            MozTransform: "translate3d(" + x + "," + y + ",0) rotate(" + r + ")",
+            transform: "translate3d(" + x + "," + y + ",0) rotate(" + r + ")"
+          });
+        });
+
+        c.echoWithNewLine("Fire in the hole!!!!");
+      };
+
+      $(function() {
+        $(".menu").click(function(e) {
+          if ($(".nav").hasClass("closed")) {
+            $(".nav").removeClass("closed");
+            $(this).html("↩");
+          } else {
+            $(".nav").addClass("closed");
+            $(this).html("↪");
+          }
+        });
+
+        $("#help").click(function(e) {
+          var pos = $(".cursor").offset();
+          var tooltip = $(".tooltip");
+          tooltip.css({
+            top: Math.min($(window).height() - tooltip.outerHeight(),
+              pos.top - tooltip.outerHeight() / 2 + $(".cursor").outerHeight() / 2 - $(window).scrollTop()),
+            left: pos.left + 20
+          });
+          tooltip.show();
+          var time = new Date().getTime();
+          tooltip.attr("id", time);
+          setTimeout(function() {
+              if (tooltip.attr("id") != time) return;
+              tooltip.hide();
+          }, 5000);
+        });
+        var welcome = [
+        "<pre>",
+        "| | | |    | | |",
+        "| |_| | ___| | | ___",
+        "|  _  |/ _ \\ | |/ _ \\",
+        "| | | |  __/ | | (_) |",
+        "\\_| |_/\\___|_|_|\\___/",
+        "</pre>",
+        "If you need a hand, type 'help'."].join('\n');
+        $(".console").console({
+          welcome: welcome,
+          commands: commands
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <ul class="nav closed">
+      <li class="menu">↪</li>
+      <li><a href="http://twitter.com/nloko">@nloko</a></li>
+      <li><a id="help" href="javascript:void(0)">help</a></li>
+    </ul>
+    <div class="console">
+    </div>
+    <div class="tooltip">
+      If you can't type, you're probably on a mobile device. If so, try a different browser. Otherwise, try again from a desktop browser.</a>
+    </div> 
+  </body>
+</html>

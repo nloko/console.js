@@ -1,0 +1,104 @@
+.console {
+  background: #002b36;
+  width: 100%;
+  padding: 4px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -o-box-sizing: border-box;
+}
+.line {
+  display: inline-block;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  -webkit-transition: -webkit-transform 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -moz-transition: -moz-transform 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -o-transition: -o-transform 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.char {
+  color: #839496;
+  font-family: 'PT Mono', monospace;
+  font-size: 16px;
+  font-weight: bold;
+}
+.text {
+  font-weight: normal;
+}
+.inactive {
+  display: block;
+}
+.prompt {
+  padding-right: 10px;
+}
+.cursor {
+  font-size: 14px;
+  -webkit-animation-name: blink;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-duration: 1s;
+  animation-name: blink;
+  animation-iteration-count: infinite;
+  animation-duration: 1s;
+  -o-animation-name: blink;
+  -o-animation-iteration-count: infinite;
+  -o-animation-duration: 1s;
+}
+@-webkit-keyframes blink {
+  0% {
+    opacity: 1;
+      }
+      50% {
+        opacity: 0.75;
+      }
+      100% {
+        opacity: 0;
+      }
+}
+
+@-o-keyframes blink {
+  0% {
+    opacity: 1;
+      }
+      50% {
+        opacity: 0.75;
+      }
+      100% {
+        opacity: 0;
+      }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+      }
+      50% {
+        opacity: 0.75;
+      }
+      100% {
+        opacity: 0;
+      }
+}
+
+input[type=text] {
+  background: transparent;
+  color: transparent;
+  border: none;
+  cursor: none;
+  -webkit-appearance: none;
+  opacity: 0;
+  height: 0px;
+  width: 0px;
+}
+input[type=text]:focus {
+  -webkit-appearance: none;
+  outline: none;
+  cursor: none;
+}
+.welcome {
+  padding: 40px 20px;
+}
