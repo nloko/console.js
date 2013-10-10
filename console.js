@@ -1,3 +1,9 @@
+/**
+ ** Depends on console.css
+ **
+ ** MIT License
+ ** Copyright 2013 Neil Loknath <neil.loknath@gmail.com>
+ **/
 ;(function($) {
   "use strict";
   var commands = {};
